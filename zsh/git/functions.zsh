@@ -59,3 +59,26 @@ prune_git_worktrees() {
   git worktree prune -v
   echo "✅ Pruned stale worktrees"
 }
+
+delete_local_non_main_branches() {
+  # Check if we're in a git repository
+  if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+      echo "Error: Not in a git repository"
+      return 1
+  fi
+
+  # Get current branch
+  local current_branch=$(git branch --show-current)
+
+  echo "This will delete all local branches except 'main' and current branch '$current_branch'"
+  echo "Are you sure? (y/n)"
+  read -r response
+
+  if [[ "$response" =~ ^[Yy]$ ]]; then
+      # Delete all local branches except main and current branch
+      git branch | grep -v "main" | grep -v "$current_branch" | xargs git branch -D
+      echo "Branches deleted successfully"
+  else
+      echo "Operation cancelled"
+  fi
+}
