@@ -1,1 +1,1 @@
-# dotfiles
+Contains various function/scripts intended for use in dotfiles
