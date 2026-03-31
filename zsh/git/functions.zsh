@@ -85,6 +85,11 @@ delete_local_non_main_branches() {
 
 git_commit_and_push() {
   local commit_message="${1:?Usage: git_commit_and_push \"COMMIT_MESSAGE\"}"
+  
+  # Sanitize: strip anything that isn't alphanumeric, spaces, hyphens, or basic punctuation
+  commit_message=$(echo "$commit_message" | tr -cd '[:alnum:] [:space:]._-:()')
+  commit_message="${commit_message:0:200}"  # Max length
+
   local current_branch=$(git rev-parse --abbrev-ref HEAD)
   git add .
   git commit -m "$commit_message"
