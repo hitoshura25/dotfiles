@@ -85,7 +85,8 @@ delete_local_non_main_branches() {
 
 git_commit_and_push() {
   local commit_message="${1:?Usage: git_commit_and_push \"COMMIT_MESSAGE\"}"
+  local current_branch=$(git rev-parse --abbrev-ref HEAD)
   git add .
   git commit -m "$commit_message"
-  git push
+  git push origin "$current_branch"
 }
