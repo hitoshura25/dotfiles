@@ -82,3 +82,10 @@ delete_local_non_main_branches() {
       echo "Operation cancelled"
   fi
 }
+
+git_commit_and_push() {
+  local commit_message="${1:?Usage: git_commit_and_push \"COMMIT_MESSAGE\"}"
+  git add .
+  git commit -m "$commit_message"
+  git push
+}
